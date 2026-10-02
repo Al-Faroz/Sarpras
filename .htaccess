@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /sarpras_hos/
+
+    # Blokir akses langsung ke folder app/
+    RewriteRule ^app/.*$ - [F,L]
+
+    # Kalau file/folder fisik ada, akses langsung
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Semua request lain → index.php
+    RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+</IfModule>
+
+# Kalau mod_rewrite tidak aktif
+<IfModule !mod_rewrite.c>
+    ErrorDocument 404 /sarpras_hos/index.php
+</IfModule>
